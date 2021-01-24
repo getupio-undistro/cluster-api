@@ -784,7 +784,7 @@ func TestClusterToObjectsMapper(t *testing.T) {
 
 	for _, tc := range table {
 		tc.objects = append(tc.objects, cluster)
-		client := fake.NewFakeClientWithScheme(scheme, tc.objects...)
+		client := fake.NewClientBuilder().WithObjects(tc.objects...).WithScheme(scheme).Build()
 		f, err := ClusterToObjectsMapper(client, tc.input, scheme)
 		g.Expect(err != nil, err).To(Equal(tc.expectError))
 		g.Expect(f(cluster)).To(ConsistOf(tc.output))

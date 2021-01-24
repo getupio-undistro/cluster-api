@@ -335,7 +335,7 @@ kind: ClusterConfiguration
 			for _, o := range []client.Object{cm, depl, kubeadmCM} {
 				// NB. deep copy test object so changes applied during a test does not affect other tests.
 				o := o.DeepCopyObject().(client.Object)
-				key, _ := client.ObjectKeyFromObject(o)
+				key := client.ObjectKeyFromObject(o)
 				err := testEnv.Get(ctx, key, o)
 				if err == nil || (err != nil && !apierrors.IsNotFound(err)) {
 					return false
@@ -467,7 +467,7 @@ func TestUpdateCoreDNSCorefile(t *testing.T) {
 	t.Run("returns error if migrate failed to update corefile", func(t *testing.T) {
 		g := NewWithT(t)
 		objs := []client.Object{depl, cm}
-		fakeClient := fake.NewFakeClientWithScheme(scheme.Scheme, objs...)
+		fakeClient := fake.NewClientBuilder().WithObjects(objs...).WithScheme(scheme.Scheme).Build()
 		fakeMigrator := &fakeMigrator{
 			migrateErr: errors.New("failed to migrate"),
 		}
@@ -499,7 +499,7 @@ func TestUpdateCoreDNSCorefile(t *testing.T) {
 		// Not including the deployment so as to fail early and verify that
 		// the intermediate config map update occurred
 		objs := []client.Object{cm}
-		fakeClient := fake.NewFakeClientWithScheme(scheme.Scheme, objs...)
+		fakeClient := fake.NewClientBuilder().WithObjects(objs...).WithScheme(scheme.Scheme).Build()
 		fakeMigrator := &fakeMigrator{
 			migratedCorefile: "updated-core-file",
 		}
@@ -531,7 +531,7 @@ func TestUpdateCoreDNSCorefile(t *testing.T) {
 
 		g := NewWithT(t)
 		objs := []client.Object{depl, cm}
-		fakeClient := fake.NewFakeClientWithScheme(scheme.Scheme, objs...)
+		fakeClient := fake.NewClientBuilder().WithObjects(objs...).WithScheme(scheme.Scheme).Build()
 		fakeMigrator := &fakeMigrator{
 			migratedCorefile: "updated-core-file",
 		}
@@ -734,7 +734,7 @@ func TestGetCoreDNSInfo(t *testing.T) {
 		for _, tt := range tests {
 			t.Run(tt.name, func(t *testing.T) {
 				g := NewWithT(t)
-				fakeClient := fake.NewFakeClientWithScheme(scheme.Scheme, tt.objs...)
+				fakeClient := fake.NewClientBuilder().WithObjects(tt.objs...).WithScheme(scheme.Scheme).Build()
 				w := &Workload{
 					Client: fakeClient,
 				}
@@ -844,7 +844,7 @@ scheduler: {}`,
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := NewWithT(t)
-			fakeClient := fake.NewFakeClientWithScheme(scheme.Scheme, tt.objs...)
+			fakeClient := fake.NewClientBuilder().WithObjects(tt.objs...).WithScheme(scheme.Scheme).Build()
 			w := &Workload{
 				Client: fakeClient,
 			}
@@ -948,7 +948,7 @@ func TestUpdateCoreDNSDeployment(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := NewWithT(t)
-			fakeClient := fake.NewFakeClientWithScheme(scheme.Scheme, tt.objs...)
+			fakeClient := fake.NewClientBuilder().WithObjects(tt.objs...).WithScheme(scheme.Scheme).Build()
 
 			w := &Workload{
 				Client: fakeClient,

@@ -847,7 +847,7 @@ func TestMachineConditions(t *testing.T) {
 			g.Expect(err).NotTo(HaveOccurred())
 
 			m = &clusterv1.Machine{}
-			machineKey, _ := client.ObjectKeyFromObject(&machine)
+			machineKey := client.ObjectKeyFromObject(&machine)
 			g.Expect(r.Client.Get(ctx, machineKey, m)).NotTo(HaveOccurred())
 
 			assertConditions(t, m, tt.conditionsToAssert...)

@@ -145,7 +145,7 @@ kind: ClusterConfiguration
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := NewWithT(t)
-			fakeClient := fake.NewFakeClientWithScheme(scheme, tt.objs...)
+			fakeClient := fake.NewClientBuilder().WithObjects(tt.objs...).WithScheme(scheme).Build()
 			w := &Workload{
 				Client: fakeClient,
 			}
@@ -292,7 +292,7 @@ func TestRemoveEtcdMemberForMachine(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			g := NewWithT(t)
-			fakeClient := fake.NewFakeClientWithScheme(scheme, tt.objs...)
+			fakeClient := fake.NewClientBuilder().WithObjects(tt.objs...).WithScheme(scheme).Build()
 			w := &Workload{
 				Client:              fakeClient,
 				etcdClientGenerator: tt.etcdClientGenerator,

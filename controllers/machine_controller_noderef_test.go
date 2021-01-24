@@ -69,7 +69,7 @@ func TestGetNodeReference(t *testing.T) {
 		},
 	}
 
-	client := fake.NewFakeClientWithScheme(scheme.Scheme, nodeList...)
+	client := fake.NewClientBuilder().WithObjects(nodeList...).WithScheme(scheme.Scheme).Build()
 
 	testCases := []struct {
 		name       string

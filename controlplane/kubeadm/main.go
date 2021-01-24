@@ -35,7 +35,6 @@ import (
 	"sigs.k8s.io/cluster-api/cmd/version"
 	kubeadmcontrolplanev1alpha3 "sigs.k8s.io/cluster-api/controlplane/kubeadm/api/v1alpha3"
 	kubeadmcontrolplanecontrollers "sigs.k8s.io/cluster-api/controlplane/kubeadm/controllers"
-	"sigs.k8s.io/cluster-api/util"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	// +kubebuilder:scaffold:imports
@@ -127,7 +126,6 @@ func main() {
 		RetryPeriod:        &leaderElectionRetryPeriod,
 		Namespace:          watchNamespace,
 		SyncPeriod:         &syncPeriod,
-		NewClient:          util.ManagerDelegatingClientFunc,
 		Port:               webhookPort,
 	})
 	if err != nil {

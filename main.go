@@ -40,7 +40,6 @@ import (
 	expv1alpha3 "sigs.k8s.io/cluster-api/exp/api/v1alpha3"
 	expcontrollers "sigs.k8s.io/cluster-api/exp/controllers"
 	"sigs.k8s.io/cluster-api/feature"
-	"sigs.k8s.io/cluster-api/util"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
@@ -165,7 +164,6 @@ func main() {
 		RetryPeriod:            &leaderElectionRetryPeriod,
 		Namespace:              watchNamespace,
 		SyncPeriod:             &syncPeriod,
-		NewClient:              util.ManagerDelegatingClientFunc,
 		Port:                   webhookPort,
 		HealthProbeBindAddress: healthAddr,
 	})

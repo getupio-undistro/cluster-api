@@ -163,7 +163,7 @@ func (t *ClusterCacheTracker) newClusterAccessor(ctx context.Context, cluster cl
 		cfg:     config,
 	})
 
-	delegatingClient := client.NewDelegatingClient(client.NewDelegatingClientInput{
+	delegatingClient, _ := client.NewDelegatingClient(client.NewDelegatingClientInput{
 		CacheReader: cache,
 		Client:      c,
 	})
