@@ -338,8 +338,9 @@ func (r *KubeadmControlPlaneReconciler) reconcile(ctx context.Context, cluster *
 		}
 	}
 
+	unhealthyMachines := controlPlaneMachines.Filter(machinefilters.HasUnhealthyCondition)
 	// If we've made it this far, we can assume that all ownedMachines are up to date
-	numMachines := len(ownedMachines)
+	numMachines := len(ownedMachines) - len(unhealthyMachines)
 	desiredReplicas := int(*kcp.Spec.Replicas)
 
 	switch {
