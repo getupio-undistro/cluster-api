@@ -653,7 +653,7 @@ func (r *MachineSetReconciler) patchMachineSetStatus(ctx context.Context, ms *cl
 		return ms, nil
 	}
 
-	patch := client.MergeFrom(ms.DeepCopyObject())
+	patch := client.MergeFrom(ms)
 
 	// Save the generation number we acted on, otherwise we might wrongfully indicate
 	// that we've seen a spec update when we retry.

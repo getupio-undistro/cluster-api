@@ -212,7 +212,7 @@ func (h *Helper) patchStatusConditions(ctx context.Context, obj client.Object, f
 		}
 
 		// Create the condition patch before merging conditions.
-		conditionsPatch := client.MergeFromWithOptions(latest.DeepCopyObject(), client.MergeFromWithOptimisticLock{})
+		conditionsPatch := client.MergeFromWithOptions(latest, client.MergeFromWithOptimisticLock{})
 
 		// Set the condition patch previously created on the new object.
 		if err := diff.Apply(latest, conditions.WithForceOverwrite(forceOverwrite), conditions.WithOwnedConditions(ownedConditions...)); err != nil {
